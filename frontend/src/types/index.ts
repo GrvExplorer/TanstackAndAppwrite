@@ -3,3 +3,8 @@ export type BlogType = {
   title: string;
   content: string;
 };
+
+export type BlogTypeCreate = {
+  title: string;
+  content: string;
+}

@@ -1,18 +1,22 @@
-import { Form, Formik, Field, FieldProps } from "formik";
+import { Field, FieldProps, Form, Formik } from "formik";
 
 import { useState } from "react";
 
-import { BlogType } from "@/types";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogContent,
   DialogTrigger,
-  DialogDescription,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
+import { useCreateBlog } from "@/lib/react-query/quries";
+import { BlogType } from "@/types";
+import { useQueryClient } from "@tanstack/react-query";
 export interface BlogHandlerProps {
   blog?: BlogType;
 }
@@ -20,6 +24,9 @@ export interface BlogHandlerProps {
 export function BlogHandler(props: BlogHandlerProps) {
   const [open, setOpen] = useState(false);
   const { blog } = props;
+  const { toast } = useToast();
+  const cache = useQueryClient();
+  const { mutateAsync: createBlog, isError } = useCreateBlog();
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -38,8 +45,29 @@ export function BlogHandler(props: BlogHandlerProps) {
         <div className="grid gap-4 py-4">
           <Formik
             initialValues={{ title: "", content: "" }}
-            onSubmit={(values) => {
+            onSubmit={async (values) => {
               console.log(values);
+              const res = await createBlog(values);
+              if (res) {
+                setOpen(false);
+                cache.invalidateQueries({
+                  queryKey: ["getBlogs"],
+                });
+              } else {
+                toast({
+                  title: "Uh oh! Something went wrong.",
+                  description: "There was a problem with your request.",
+                  variant: "destructive",
+                  action: (
+                    <ToastAction altText="Try again">Try again</ToastAction>
+                  ),
+                });
+              }
+              return {
+                ...values,
+                title: "",
+                content: "",
+              };
             }}
           >
             <Form className="flex flex-col gap-4 justify-end">
@@ -68,7 +96,7 @@ export function BlogHandler(props: BlogHandlerProps) {
               </Field>
               <div className="flex justify-end">
                 <Button className="mt-4" type="submit">
-                  Submit
+                  {isError ? "Error" : "Submit"}
                 </Button>
               </div>
             </Form>
