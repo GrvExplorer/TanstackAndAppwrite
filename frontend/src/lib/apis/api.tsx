@@ -14,12 +14,24 @@ export async function getBlogs() {
   }
 }
 
+// left Part
 export async function getBlog(id: string) {
   try {
     const res = await axios.get(`${BASE_URL_SERVER}/api/blogs/${id}`)
     if (!res) throw new Error("error while getting your blogs. ");
 
     return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deleteBlog(id: string) {
+  try {
+    const res = await axios.delete(`${BASE_URL_SERVER}/api/blogs/${id}`)
+    if (!res) throw new Error("error while deleting your blogs. ");
+
+    return res;
   } catch (error) {
     console.log(error);
   }
@@ -33,5 +45,18 @@ export async function createBlog(data:BlogTypeCreate) {
   return res
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function updateBlog(id:string, data:BlogTypeCreate) {
+  try {
+    const res = await axios.put(`${BASE_URL_SERVER}/api/blogs`, data)
+
+    if (!res) throw new Error("error while updating your blog. ");
+  
+    return res
+  } catch (error) {
+    console.log(error);
+    
   }
 }

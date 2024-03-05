@@ -15,6 +15,10 @@ export enum QUERY_KEYS {
   GET_USER_POSTS = "getUserPosts",
   GET_FILE_PREVIEW = "getFilePreview",
 
+  DELETE_Blog_By_Id = 'deleteBlogById',
+  PUT_Blog_By_Id = 'updateBlogById',
+
+
   //  SEARCH KEYS
   SEARCH_POSTS = "getSearchPosts",
 }

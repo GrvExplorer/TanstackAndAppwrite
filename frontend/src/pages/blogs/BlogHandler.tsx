@@ -19,11 +19,12 @@ import { BlogType } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 export interface BlogHandlerProps {
   blog?: BlogType;
+  type?: string
 }
 
 export function BlogHandler(props: BlogHandlerProps) {
   const [open, setOpen] = useState(false);
-  const { blog } = props;
+  const { blog, type } = props;
   const { toast } = useToast();
   const cache = useQueryClient();
   const { mutateAsync: createBlog, isError } = useCreateBlog();
@@ -32,12 +33,14 @@ export function BlogHandler(props: BlogHandlerProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size="sm" onClick={() => setOpen(true)}>
-          Add Blog
+          {type==='update' ? 'Update': 'AddBlog'}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Blog</DialogTitle>
+          <DialogTitle>
+          {type==='update' ? 'Update Blog': 'AddBlog'}
+          </DialogTitle>
           <DialogDescription>
             Enter your blog title and content
           </DialogDescription>
