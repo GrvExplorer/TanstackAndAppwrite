@@ -1,4 +1,4 @@
-import { BlogTypeCreate } from "@/types";
+import { BlogType, BlogTypeCreate, BlogTypeUpdate } from "@/types";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createBlog, deleteBlog, getBlog, getBlogs, updateBlog } from "../apis/api";
 import { QUERY_KEYS } from "./queryKeys";
@@ -10,17 +10,10 @@ export function useGetBlogs() {
   });
 }
 
-export function useGetBlog() {
-  return useQuery({
-    queryKey: [QUERY_KEYS.GET_Blog_BY_ID],
-    queryFn: getBlog,
-  });
-}
-
-
 
 export function useCreateBlog() {
   return useMutation({
+    mutationKey: [QUERY_KEYS.POST_Blog],
     mutationFn: (data: BlogTypeCreate) => {
       return createBlog(data) 
     },
@@ -43,8 +36,8 @@ export function useDeleteBlog() {
 export function useUpdateBlog() {
   return useMutation({
     mutationKey: [QUERY_KEYS.PUT_Blog_By_Id],
-    mutationFn: (id: string, data: BlogTypeCreate) => {
-      return updateBlog(id, data) 
+    mutationFn: (data: BlogTypeUpdate) => {
+      return updateBlog(data) 
     },
     onSuccess: () => {
 

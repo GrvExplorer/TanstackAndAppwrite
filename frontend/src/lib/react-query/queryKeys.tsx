@@ -17,6 +17,7 @@ export enum QUERY_KEYS {
 
   DELETE_Blog_By_Id = 'deleteBlogById',
   PUT_Blog_By_Id = 'updateBlogById',
+  POST_Blog = 'createBlog',
 
 
   //  SEARCH KEYS

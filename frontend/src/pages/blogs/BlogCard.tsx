@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { useDeleteBlog } from "@/lib/react-query/quries";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { isSharedArrayBuffer } from "util/types";
 import { BlogHandler } from "./BlogHandler";
 
 export interface BlogCardProps {
@@ -23,7 +22,7 @@ export function BlogCard(props: BlogCardProps) {
     <>
       <div
         key={blog._id}
-        className="w-full rounded  shadow-sm shadow-stone-400 p-4  items-center  "
+        className="w-full rounded  shadow-sm shadow-stone-400 p-4  items-center"
       >
         <h1 className="font-bold text-lg">{blog.title}</h1>
         <p className="text-md">{blog.content}</p>
