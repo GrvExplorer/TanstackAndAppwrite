@@ -1,4 +1,4 @@
-import { BlogTypeCreate } from "@/types";
+import { BlogType, BlogTypeCreate, BlogTypeUpdate } from "@/types";
 import axios from "axios";
 
 const BASE_URL_SERVER = import.meta.env.VITE_BASE_URL_SERVER
@@ -14,7 +14,6 @@ export async function getBlogs() {
   }
 }
 
-// left Part
 export async function getBlog(id: string) {
   try {
     const res = await axios.get(`${BASE_URL_SERVER}/api/blogs/${id}`)
@@ -48,7 +47,7 @@ export async function createBlog(data:BlogTypeCreate) {
   }
 }
 
-export async function updateBlog(id:string, data:BlogTypeCreate) {
+export async function updateBlog(data: BlogTypeUpdate) {
   try {
     const res = await axios.put(`${BASE_URL_SERVER}/api/blogs`, data)
 
